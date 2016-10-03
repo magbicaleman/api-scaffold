@@ -2,7 +2,7 @@
 global.Promise = require('bluebird');
 
 async function main() {
-  console.log('jello');
+  console.log('hello');
 }
 
 main();
