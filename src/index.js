@@ -1,8 +1,11 @@
 'use strict';
-global.Promise = require('bluebird');
+const Promise = require('bluebird');
+const request = Promise.promisify(require('request'));
+const cluster = require('cluster');
 
 async function main() {
-  console.log('hello');
+  var response = await request('https://google.com');
+  console.log(cluster);
 }
 
 main();
