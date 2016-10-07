@@ -14,7 +14,6 @@ To run locally use `node_modules/babel-cli/bin/babel-node.js` and point to `src/
   - Document Socket service
   - Finish setup of Config
   - Document config
-  - Solidify routes files (do not like the current setup)
   - Document routes setup
   - Document Controllers
   - Finish main index file to initialize the application
