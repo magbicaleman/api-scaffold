@@ -28,7 +28,7 @@ module.exports = function() {
   /*
    * load API routes
    */
-  require('../../api_http')(express);
+  require('../../api_http/routes')(express);
 
   /*
    * Configure socket.io.
@@ -61,11 +61,10 @@ module.exports = function() {
     socket.on('reconnect', function() {
       require('../../api_socket/reconnect')(this);
     });
-    socket.on('client-event', function(data) {
+    socket.on('client-event', async function(data) {
       data = JSON.parse(data);
       const jwt = await appModules.shared.session.decryptToken(data.token);
-      const session = await appModules.services.redis.clients.user_sessions.hgetallAsync(jwt.decodedToken.email);
-      data.session = session;
+      data.session = await appModules.services.redis.clients.user_sessions.hgetallAsync(jwt.decodedToken.email);
       require('../../api_socket/' + data.context + '/' + data.action)(data, socket);
     });
   });
