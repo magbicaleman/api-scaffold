@@ -39,17 +39,17 @@ module.exports = function() {
   });
   const redis = require('redis').createClient;
   const adapter = require('socket.io-redis');
-  const pub = redis(appModules.config.redis.clients.socketio.port, appModules.config.redis.clients.socketio.host, {
+  const pub = redis(app.config.redis.clients.socketio.port, app.config.redis.clients.socketio.host, {
     return_buffers: true,
-    auth_pass: appModules.config.redis.password
+    auth_pass: app.config.redis.password
   });
-  const sub = redis(appModules.config.redis.clients.socketio.port, appModules.config.redis.clients.socketio.host, {
+  const sub = redis(app.config.redis.clients.socketio.port, app.config.redis.clients.socketio.host, {
     return_buffers: true,
-    auth_pass: appModules.config.redis.password
+    auth_pass: app.config.redis.password
   });
   socketio.adapter(adapter({
-    host: appModules.config.redis.clients.socketio.host,
-    port: appModules.config.redis.clients.socketio.port,
+    host: app.config.redis.clients.socketio.host,
+    port: app.config.redis.clients.socketio.port,
     pubClient: pub,
     subClient: sub
   }));
@@ -63,8 +63,8 @@ module.exports = function() {
     });
     socket.on('client-event', async function(data) {
       data = JSON.parse(data);
-      const jwt = await appModules.shared.session.decryptToken(data.token);
-      data.session = await appModules.services.redis.clients.user_sessions.hgetallAsync(jwt.decodedToken.email);
+      const jwt = await app.shared.session.decryptToken(data.token);
+      data.session = await app.services.redis.clients.user_sessions.hgetallAsync(jwt.decodedToken.email);
       require('../../api_socket/' + data.context + '/' + data.action)(data, socket);
     });
   });

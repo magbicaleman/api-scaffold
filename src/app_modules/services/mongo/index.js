@@ -4,8 +4,8 @@ var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 
 module.exports = new Promise(function(resolve, reject) {
-  //mongoose.set('debug', true);
-  mongoose.connect(appModules.config.mongo.uri, appModules.config.mongo.options);
+  mongoose.set('debug', app.config.services.mongo.debug);
+  mongoose.connect(app.config.services.mongo.uri, app.config.services.mongo.options);
   mongoose.connection.on('error', function(err) {
     logger.error(err);
   });

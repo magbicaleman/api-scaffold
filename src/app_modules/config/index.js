@@ -29,10 +29,16 @@ function init() {
  */
 function initAppModules() {
   initLogging();
-  global.appModules = {};
-  appModules.config = _.merge(require('./defaults.js') || {}, require('./' + process.env.NODE_ENV + '.js') || {});
-  appModules.shared = require('../../shared');
-  appModules.models = require('../../models');
+  global.app = {};
+  app.config = _.merge(require('./defaults.js') || {}, require('./' + process.env.NODE_ENV + '.js') || {});
+  app.shared = require('../shared');
+
+  /*
+   * Add models for all DBs - currently only Mongo is configured
+   */
+  app.models = {
+    mongo: require('../services/mongo/models')
+  };
 }
 
 /**
@@ -49,8 +55,8 @@ function initLogging() {
     ]
   });
   logger.filters.push(function(level, msg, meta) {
-    if (appModules.config.workerId) {
-      return 'Worker ' + appModules.config.workerId + ' ' + msg;
+    if (app.config.workerId) {
+      return 'Worker ' + app.config.workerId + ' ' + msg;
     } else {
       return msg;
     }
