@@ -28,7 +28,7 @@ module.exports = function() {
   /*
    * load API routes
    */
-  require('../../api_http/routes')(express);
+  require('../../api_http')(express);
 
   /*
    * Configure socket.io.
