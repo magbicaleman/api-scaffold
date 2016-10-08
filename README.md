@@ -4,18 +4,32 @@ To run locally use `node_modules/babel-cli/bin/babel-node.js` and point to `src/
 
 ####TODOs
 
-  - Finish setup of HTTP service
-  - Add express JWT to HTTP flow
-  - Figure out how to get JSDOC to work properly and separate namespaces as intended
-  - Document HTTP service
-  - Finish setup of Redis service
-  - Document Redis Service
-  - Finish setup of Socket Service
-  - Document Socket service
-  - Finish setup of Config
-  - Document config
-  - Document routes setup
-  - Document Controllers
-  - Finish main index file to initialize the application
-  - Test, test, test
-  - Write up README docs for the project and replace these TODOs
+  - JSDOCS
+    - Figure out how to break things out into namespaces
+    - General documentation about modules
+  - HTTP service
+    - Try to separate API, HTTP and Socket.IO
+    - Add JWT flow
+    - Documentation
+  - Redis Service
+    - Finish configuration
+    - Documentation
+  - Socket.IO
+    - Configure to be standalone module
+    - Documentation
+  - Config
+    - finish initialization scripts
+    - Wrap up default config
+    - Documentation
+  - Routes/Controllers
+    - Finish User controller
+    - Documentation
+  - Main Index
+    - initialize app
+    - Documentation
+  - README
+    - Remove TODOs
+    - Document setup
+    - Document scaffold
+    - Document principles
+    - Document scripts
