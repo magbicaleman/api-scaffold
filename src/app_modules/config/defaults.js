@@ -1,8 +1,10 @@
 'use strict';
 
 module.exports = {
+  environment: process.env.NODE_ENV,
   app_name: process.env.APP_NAME || '352_scaffold',
-  seedData: process.env.SEED_DATA === 'true',
+  seed_data: process.env.SEED_DATA === 'true',
+  log_level: process.env.LOG_LEVEL || 'debug',
   services: {
     express: {
       port: process.env.PORT || 9000
@@ -16,9 +18,9 @@ module.exports = {
           ha: true
         }
       },
-      enableDbEncryption: process.env.MONGO_ENCRYPTED ? process.env.MONGO_ENCRYPTED : false,
-      encryptionKey: process.env.MONGO_ENCRYPTION_KEY ? process.env.MONGO_ENCRYPTION_KEY : '',
-      signingKey: process.env.MONGO_SIGNING_KEY ? process.env.MONGO_SIGNING_KEY : ''
+      enable_db_encryption: process.env.MONGO_ENCRYPTED ? process.env.MONGO_ENCRYPTED : false,
+      encryption_key: process.env.MONGO_ENCRYPTION_KEY ? process.env.MONGO_ENCRYPTION_KEY : '',
+      signing_key: process.env.MONGO_SIGNING_KEY ? process.env.MONGO_SIGNING_KEY : ''
     },
     redis: {
       clients: {
@@ -36,6 +38,11 @@ module.exports = {
         }
       },
       password: process.env.REDIS_PASSWORD || false
+    }
+  },
+  notifications: {
+    slack: {
+      url: process.env.SLACK_URL
     }
   }
 };

@@ -1,7 +1,6 @@
 'use strict';
 
 var _ = require('lodash');
-var path = require('path');
 var winston = require('winston');
 
 module.exports = {
@@ -28,7 +27,6 @@ function init() {
 
  */
 function initAppModules() {
-  initLogging();
   global.app = {};
   app.config = _.merge(require('./defaults.js') || {}, require('./' + process.env.NODE_ENV + '.js') || {});
   app.shared = require('../shared');
@@ -51,15 +49,8 @@ function initAppModules() {
 function initLogging() {
   global.logger = new (winston.Logger)({
     transports: [
-      new (winston.transports.Console)({level: process.env.LOG_LEVEL || 'debug'})
+      new (winston.transports.Console)({level: app.config.log_Level})
     ]
-  });
-  logger.filters.push(function(level, msg, meta) {
-    if (app.config.workerId) {
-      return 'Worker ' + app.config.workerId + ' ' + msg;
-    } else {
-      return msg;
-    }
   });
 }
 
@@ -71,10 +62,10 @@ function initLogging() {
 function notifyOnStart(environment) {
   if (environment !== 'local') {
     var request = require('request');
-    request.post(process.env.SLACK_URL,
+    request.post(app.config.notifications.slack.url,
       {
         form: {
-          payload: '{"text": "' + process.env.APP_NAME + ' started in ' + environment + '"}'
+          payload: '{"text": "' + app.config.app_name + ' started in ' + app.config.environment + '"}'
         }
       },
       function(error, response, body) {
