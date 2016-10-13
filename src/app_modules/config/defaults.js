@@ -5,6 +5,10 @@ module.exports = {
   app_name: process.env.APP_NAME || '352_scaffold',
   seed_data: process.env.SEED_DATA === 'true',
   log_level: process.env.LOG_LEVEL || 'debug',
+  jwt: {
+    secret: process.env.JWT_SECRET || 'fAmAT93K584WY1w4dGYg3kL387nMGRgf',
+    content_secret: process.env.JWT_CONTENT_SECRET || 'd6F3Efeq',
+  },
   services: {
     express: {
       port: process.env.PORT || 9000
