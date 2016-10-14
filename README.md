@@ -19,3 +19,6 @@ In order for this application to work it assumes you have
 
 ####Generate Documentation
 `npm run generate-docs`
+
+####Contributing
+Please see the [Project](https://github.com/dvideby0/api-scaffold/projects/2) page for current tasks 
