@@ -16,10 +16,10 @@ app.config = _.merge(require('./defaults.js') || {}, require('./env/' + process.
  * @namespace config
  * @name init
  */
-function init() {
+async function init() {
   initLogging();
-  initAppModules();
-  notifyOnStart();
+  return initAppModules()
+    .then(notifyOnStart);
 }
 
 /**

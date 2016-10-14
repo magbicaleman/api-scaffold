@@ -53,19 +53,11 @@ module.exports = function() {
     pubClient: pub,
     subClient: sub
   }));
-  socketio.on('connection', function(socket) {
-    socket.emit('connection-event', 'socket connection successful for socket: ' + socket.id);
-    socket.on('disconnect', function() {
-      require('../../api_socket/disconnect')(this);
-    });
-    socket.on('reconnect', function() {
-      require('../../api_socket/reconnect')(this);
-    });
-    socket.on('client-event', async function(data) {
-      data = JSON.parse(data);
-      data.session = await app.shared.session.getSessionFromToken(data.token);
-      require('../../api_socket/' + data.resource + '/' + data.action)(data, socket);
-    });
-  });
+
+  /*
+   * Load socket routes
+   */
+  require('../../api_socket')(socketio);
+
   return {express: express, server: api, socketio: socketio};
 };

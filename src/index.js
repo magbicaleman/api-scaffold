@@ -2,5 +2,8 @@
 
 const config = require('./app_modules/config');
 
-config.init();
-console.log('Server Started...');
+config.init()
+  .then(() => {
+    console.log('Server Started...');
+  })
+  .catch(console.error);
