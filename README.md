@@ -1,5 +1,11 @@
 ##Scaffold for generic node API server
 
+#### Pre-Requisites
+In order for this application to work it assumes you have
+1. Node >= 4.x installed
+2. MongoDB >= 3.x w/SSL installed and running
+3. Redis >= 3.x installed and running
+
 ####Setup
 
 1. Once you have cloned the project please run `npm install`
