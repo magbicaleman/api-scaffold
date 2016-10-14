@@ -1,6 +1,6 @@
 'use strict';
-const Promise = require('bluebird');
-const cluster = require('cluster');
-const routes = require('./app_modules/api_http');
 
-routes();
+const config = require('./app_modules/config');
+
+config.init();
+console.log('Server Started...');

@@ -7,6 +7,9 @@ module.exports = {
   init: init
 };
 
+global.app = {};
+app.config = _.merge(require('./defaults.js') || {}, require('./env/' + process.env.NODE_ENV + '.js') || {});
+
 /**
  * This function initializes the application by calling initLogging, initAppModules and notifyOnStart
 
@@ -26,10 +29,9 @@ function init() {
  * global.models (mongo models ../services/mongo/models)
 
  */
-function initAppModules() {
-  global.app = {};
-  app.config = _.merge(require('./defaults.js') || {}, require('./' + process.env.NODE_ENV + '.js') || {});
+async function initAppModules() {
   app.shared = require('../shared');
+  app.services = await require('../services')();
 
   /*
    * Add models for all DBs - currently only Mongo is configured
@@ -60,8 +62,8 @@ function initLogging() {
  * @method notifyOnStart
  */
 function notifyOnStart(environment) {
-  if (environment !== 'local') {
-    var request = require('request');
+  if (app.config.environment !== 'local') {
+    const request = require('request');
     request.post(app.config.notifications.slack.url,
       {
         form: {

@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  environment: process.env.NODE_ENV,
+  environment: process.env.NODE_ENV || 'local',
   app_name: process.env.APP_NAME || '352_scaffold',
   seed_data: process.env.SEED_DATA === 'true',
   log_level: process.env.LOG_LEVEL || 'debug',

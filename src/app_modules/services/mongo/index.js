@@ -1,7 +1,8 @@
 'use strict';
 
-var mongoose = require('mongoose');
-mongoose.Promise = require('bluebird');
+const Promise = require('bluebird');
+const mongoose = require('mongoose');
+mongoose.Promise = Promise;
 
 module.exports = new Promise(function(resolve, reject) {
   mongoose.set('debug', app.config.services.mongo.debug);
