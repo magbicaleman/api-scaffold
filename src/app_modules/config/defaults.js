@@ -10,7 +10,7 @@ module.exports = {
     content_secret: process.env.JWT_CONTENT_SECRET || 'd6F3Efeq',
   },
   services: {
-    express: {
+    http: {
       port: process.env.PORT || 9000
     },
     mongo: {

@@ -1,0 +1,12 @@
+{
+  "preset": "google",
+  "fileExtensions": [".js", "jscs"],
+  "excludeFiles": [
+    "node_modules/**",
+    "bower_components/**",
+    "**/*.spec.js",
+    "**/*.min.js"
+  ],
+  "maximumLineLength": 1000,
+  "requireCamelCaseOrUpperCaseIdentifiers": "ignoreProperties"
+}
