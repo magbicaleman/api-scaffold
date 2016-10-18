@@ -1,5 +1,9 @@
 'use strict';
-
+/**
+ * Default configuration values that apply regardless of environment
+ * @memberOf app.config
+ * @name defaults
+ */
 module.exports = {
   environment: process.env.NODE_ENV || 'local',
   app_name: process.env.APP_NAME || '352_scaffold',
