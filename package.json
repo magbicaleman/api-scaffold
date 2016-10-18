@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node dist/index.js",
     "build": "babel src -d dist --presets es2015,stage-2,stage-3",
-    "generate-docs": "./node_modules/jsdoc/jsdoc.js ./src/ -r -c jsdoc.conf.json -d ./documentation"
+    "generate-docs": "./node_modules/jsdoc/jsdoc.js ./src/ -r -c jsdoc.conf.json -d ./documentation -t ./node_modules/ink-docstrap/template"
   },
   "babel": {
     "presets": [

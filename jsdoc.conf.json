@@ -11,5 +11,18 @@
   "templates": {
     "cleverLinks": false,
     "monospaceLinks": false
+  },
+  "templates": {
+    "systemName": "FixtR",
+    "includeDate": false,
+    "navType": "vertical",
+    "theme": "cerulean",
+    "linenums": true,
+    "collapseSymbols": true,
+    "inverseNav": false,
+    "outputSourceFiles": true ,
+    "outputSourcePath": false,
+    "syntaxTheme": "default",
+    "search": true
   }
 }
