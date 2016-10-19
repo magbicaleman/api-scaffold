@@ -1,5 +1,13 @@
 'use strict';
-
-module.exports = {
-  session: require('./session')
+/**
+ * TODO: Description of shared
+ * @memberOf app
+ * @namespace app.shared
+ * @param app
+ * @returns {{session: {verify, decryptToken, signToken, getUserToken, encryptContents, decryptContents}}}
+ */
+module.exports = function(app) {
+  return {
+    session: require('./session')(app)
+  };
 };

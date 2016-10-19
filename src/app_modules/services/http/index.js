@@ -6,7 +6,7 @@ const compress = require('compression');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-module.exports = function() {
+module.exports = function(app) {
 
   /*
    * Configure all express middleware
