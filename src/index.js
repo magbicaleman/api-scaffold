@@ -20,10 +20,7 @@ async function init() {
    * @namespace
    */
   let app = {};
-  /**
-   * @memberOf app
-   * @namespace app.config
-   */
+  // add config to app
   app.config = require('./app_modules/config');
   /**
    * replaces console.log
@@ -35,11 +32,7 @@ async function init() {
       new (winston.transports.Console)({level: app.config.log_Level})
     ]
   });
-  /**
-   * TODO: Description of shared
-   * @memberOf app
-   * @namespace app.shared
-   */
+  // add shared functions to app
   app.shared = require('./app_modules/shared')(app);
   // add services to app
   app.services = await require('./app_modules/services')(app);
@@ -85,6 +78,6 @@ function notifyOnStart(app) {
 init()
   .then(notifyOnStart)
   .then(() => {
-    logger.info('Server Started');
+    global.logger.info('Server Started');
   })
-  .catch(logger.error);
+  .catch(global.logger.error);
