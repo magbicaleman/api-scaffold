@@ -2,7 +2,13 @@
 const path = require('path');
 const fs = require('fs');
 
-module.exports = async function(express) {
+/**
+ * @memberOf HTTP
+ * @inner
+ * @namespace Routes
+ * @param express
+ */
+module.exports = function(express, app) {
   /*
    * Go through all http directories and attach the router to the resource
    */
@@ -10,8 +16,9 @@ module.exports = async function(express) {
   const resources = fs.readdirSync(resourcePath);
   resources.forEach(function(resource) {
     if (resource !== 'index.js') {
-      express.use('/' + resource, require('./' + resource + '/http.routes'));
+      express.use('/' + resource, function(req, res) {
+        require('./' + resource + '/http.routes')(req, res, app);
+      });
     }
   });
 };
-

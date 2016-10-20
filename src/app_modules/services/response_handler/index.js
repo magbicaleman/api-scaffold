@@ -1,27 +1,33 @@
 'use strict';
 
-module.exports = function(app) {
-  function success(responseData, payload) {
-    responseData = responseData || {success: true};
-    var responseCode = payload.responseCode || 200;
-    payload.webResponse.status(responseCode).json(responseData);
+module.exports = function() {
+  function success(res, payload) {
+    if(!payload) {
+      payload = {};
+    }
+    const responseData = payload.data || {success: true};
+    const responseCode = payload.responseCode || 200;
+    res.status(responseCode).json(responseData);
     logger.silly(JSON.stringify(responseData));
   }
 
-  function error(error, payload) {
+  function error(res, payload) {
+    if (!payload) {
+      payload = {};
+    }
     var responseCode;
-    if (error && error.responseCode) {
-      responseCode = error.responseCode;
+    if (payload.error && payload.error.responseCode) {
+      responseCode = payload.error.responseCode;
     } else {
       responseCode = payload.responseCode || 500;
     }
-    var response = {error: error.message || error.error};
+    const response = {error: payload.error.message || payload.error};
     if (process.env.NODE_ENV === 'local') {
-      console.error(error.stack || error);
+      logger.error(payload.error.stack || payload.error);
     } else if (responseCode === 500) {
-      console.error(error.stack || error);
+      logger.error(payload.error.stack || payload.error);
     }
-    payload.webResponse.status(responseCode).send(response);
+    res.status(responseCode).send(response);
   }
 
   return {

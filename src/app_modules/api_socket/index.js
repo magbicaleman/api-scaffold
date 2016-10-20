@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ * TODO: Describe socket.io routing
+ * @param socketio
+ */
 module.exports = function(socketio) {
   socketio.on('connection', function(socket) {
     socket.emit('connection-event', 'socket connection successful for socket: ' + socket.id);

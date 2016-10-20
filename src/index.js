@@ -11,13 +11,13 @@ const winston = require('winston');
  * **app.shared functions** (./app_modules/shared)
  *
  * **app.models.mongo** (currently only mongoose models)
- * @method
+ * @namespace global
  * @name init
  */
 async function init() {
   /**
    * app namespace
-   * @namespace
+   * @namespace app
    */
   let app = {};
   // add config to app
@@ -36,10 +36,7 @@ async function init() {
   app.shared = require('./app_modules/shared')(app);
   // add services to app
   app.services = await require('./app_modules/services')(app);
-  /**
-   *
-   * @type {{mongo: {User: *}}}
-   */
+  // add models to app
   app.models = {
     mongo: require('./app_modules/services/mongo/models')
   };
@@ -65,19 +62,22 @@ function notifyOnStart(app) {
           if (error) {
             reject(error);
           } else {
-            resolve();
+            resolve(app);
           }
         }
       );
     } else {
-      resolve();
+      resolve(app);
     }
   });
 }
 
+// Initialize the server
 init()
   .then(notifyOnStart)
-  .then(() => {
-    global.logger.info('Server Started');
+  .then(app => {
+    app.services.http.server.listen(app.config.services.http.port);
+    global.logger.info('HTTP server listening on port ', app.config.services.http.port);
+    global.logger.info('Server initialization complete!');
   })
   .catch(global.logger.error);
