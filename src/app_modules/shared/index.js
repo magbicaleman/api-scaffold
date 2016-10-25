@@ -1,6 +1,6 @@
 'use strict';
 /**
- * TODO: Description of shared
+ * TODO: Description of shared functions
  * @memberOf app
  * @namespace app.shared
  * @param app

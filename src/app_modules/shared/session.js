@@ -3,6 +3,11 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const algorithm = 'aes-256-ctr';
 
+/**
+ * TODO: Describe session shared functions
+ * @param app
+ * @returns {{verify: verify, decryptToken: decryptToken, signToken: signToken, getUserToken: getUserToken, encryptContents: encryptContents, decryptContents: decryptContents}}
+ */
 module.exports = function(app) {
   function decryptToken(token) {
     return new Promise(function(resolve, reject) {

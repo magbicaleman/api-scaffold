@@ -5,6 +5,10 @@ const Promise = require('bluebird');
 Promise.promisifyAll(redis.RedisClient.prototype);
 Promise.promisifyAll(redis.Multi.prototype);
 
+/**
+ * TODO: Describe redis service
+ * @param app
+ */
 module.exports = function(app) {
   return new Promise(function(resolve, reject) {
     var promiseArray = [];

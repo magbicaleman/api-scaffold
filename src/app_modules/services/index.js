@@ -11,6 +11,6 @@ module.exports = async function(app) {
     mongo: await require('./mongo')(app),
     http: require('./http')(app),
     redis: await require('./redis')(app),
-    responseHandler: require('./response_handler')()
+    responseHandler: require('./response_handler')(app)
   };
 };

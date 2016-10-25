@@ -1,6 +1,11 @@
 'use strict';
 
-module.exports = function() {
+/**
+ * TODO: Describe Response Handler service
+ * @param app
+ * @returns {{success: success, error: error}}
+ */
+module.exports = function(app) {
   function success(res, payload) {
     if(!payload) {
       payload = {};
