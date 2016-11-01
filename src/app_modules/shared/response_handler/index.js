@@ -1,13 +1,38 @@
 'use strict';
 
 /**
- * TODO: Describe Response Handler service
+ * responseHandler
+ * =========
+ * ResponseHandler is a centralized way of responding to all http requests.
+ * This will help centralize what error codes are used by default and also
+ * handle anything we need to inject when responding
+ * The functions all take 2 parameters:
+ * * res - the express response object
+ * * payload - what to send back
+ *  * responseCode - what HTTP code to send
+ *  * data - body to return
+ *
+ * responseHandler Functions
+ * ---------
+ *
+ * ### responseHandler.success ###
+ * success(res, payload) -  will respond with a 200 unless you pass in a
+ * payload.responseCode and the body comes from payload.data.
+ *
+ * ###  responseHandler.error ###
+ * error(res, payload) -  will respond with a 500 unless you pass in a
+ * payload.error.responseCode or payload.responseCode.
+ * Body -  payload.error.message or payload.error.
+ *
+ * @name responseHandler
+ * @memberOf app.services
+ *
  * @param app
  * @returns {{success: success, error: error}}
  */
 module.exports = function(app) {
   function success(res, payload) {
-    if(!payload) {
+    if (!payload) {
       payload = {};
     }
     const responseData = payload.data || {success: true};

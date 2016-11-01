@@ -6,9 +6,9 @@ const winston = require('winston');
  *
  * **global.logger** (replacement for console.log)
  *
- * **app.services** (./app_modules/services)
+ * **app.services** (./app_modules/services) {@link app.services}
  *
- * **app.shared functions** (./app_modules/shared)
+ * **app.shared functions** (./app_modules/shared) {@link app.shared}
  *
  * **app.models.mongo** (currently only mongoose models)
  * @namespace global
@@ -32,13 +32,15 @@ async function init() {
       new (winston.transports.Console)({level: app.config.log_Level})
     ]
   });
+  // open connections to other apps/services
+  app.clients = await require('./app_modules/clients')(app);
   // add shared functions to app
-  app.shared = require('./app_modules/shared')(app);
-  // add services to app
   app.services = await require('./app_modules/services')(app);
   // add models to app
+  app.shared = require('./app_modules/shared')(app);
+  // add services to app
   app.models = {
-    mongo: require('./app_modules/services/mongo/models')
+    mongo: require('./app_modules/models/mongoose')
   };
   return app;
 }
@@ -77,7 +79,7 @@ init()
   .then(notifyOnStart)
   .then(app => {
     app.services.http.server.listen(app.config.services.http.port);
-    global.logger.info('HTTP server listening on port ', app.config.services.http.port);
-    global.logger.info('Server initialization complete!');
+    console.log('HTTP server listening on port ', app.config.services.http.port);
+    console.log('Server initialization complete!');
   })
-  .catch(global.logger.error);
+  .catch(console.error);

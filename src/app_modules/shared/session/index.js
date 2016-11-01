@@ -4,7 +4,26 @@ const crypto = require('crypto');
 const algorithm = 'aes-256-ctr';
 
 /**
- * TODO: Describe session shared functions
+ * session
+ * =========
+ * All the services associated with maintaining a session.
+ *
+ * session Functions
+ * ---------
+ *
+ * ### session.decryptToken ###
+ * decryptToken(token)
+ * * parameters:
+ *  * token - token to decrypt
+ * * response:
+ *  * object
+ *   * error - any error that occurred
+ *   * decodedToken - contents
+ *   * token - token for matching
+ *
+ * @name session
+ * @memberOf app.shared
+ *
  * @param app
  * @returns {{verify: verify, decryptToken: decryptToken, signToken: signToken, getUserToken: getUserToken, encryptContents: encryptContents, decryptContents: decryptContents}}
  */

@@ -1,16 +1,21 @@
 'use strict';
 /**
- * TODO: Description of services
+ * Services
+ * ========
+ * All services are meant to encapsulate external connections and other systems.
+ *  For anything related to internal functions see {@link app.shared}
+ *  For anything related to clients see {@link app.clients}
+ *
+ * ### Available Services ###
+ * * http - node http services
+ *
  * @memberOf app
  * @namespace app.services
  * @param app
- * @returns {{mongo: *, http: {express, server, socketio}, redis: *, responseHandler: {success, error}}}
+ * @returns {{http: {express, server, socketio}}}
  */
 module.exports = async function(app) {
   return {
-    mongo: await require('./mongo')(app),
-    http: require('./http')(app),
-    redis: await require('./redis')(app),
-    responseHandler: require('./response_handler')(app)
+    http: require('./http')(app)
   };
 };

@@ -3,7 +3,10 @@ const express = require('express');
 const router = express.Router();
 
 /**
- * TODO: Describe router function
+ * This export defines what routes are available on USER
+ *  POST to /create to create a new user
+ *  GET to /:id to return a specific user
+ *
  * @param req
  * @param res
  * @param app

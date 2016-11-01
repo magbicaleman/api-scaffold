@@ -5,7 +5,12 @@ const mongoose = require('mongoose');
 mongoose.Promise = Promise;
 
 /**
- * TODO: Description of models
+ * Mongo configuration.
+ *
+ * Waits for connection before resolving.
+ *
+ * All configuration is set in the environment configuration {@link app.config}
+ *
  * @memberOf app.models
  * @namespace app.models.mongo
  * @param app

@@ -1,0 +1,44 @@
+language: node_js
+
+node_js:
+  - "6"
+
+env:
+  - CXX=g++-4.8
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - gcc-4.8
+      - g++-4.8
+
+#notifications:
+#  slack: PUT YOUR SLACK TOKEN HERE
+
+before_script:
+  - npm run-script build
+
+before_deploy:
+  - cd dist
+  - git init
+  - git config --global user.email "travis@travis-ci.com"
+  - git config --global user.name "Travis CI"
+  - git add -A
+
+#deploy:
+#  skip_cleanup: true
+#  provider: heroku
+#  api_key: [HEROKU API KEY]
+#  app:
+#      dev: [APP_NAME]
+#      staging: [APP_NAME]
+#      production: [APP_NAME]
+
+branches:
+  only:
+    - local
+    - dev
+    - staging
+    - production

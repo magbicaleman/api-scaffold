@@ -6,7 +6,17 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 /**
- * TODO: Describe the express module
+ * Express configuration for serving up the API
+ * ### Settings ###
+ * * compress
+ * * bodyParser
+ *  * urlencoded - handle encoding with the qs parser
+ *  * json - 1mb limit on JSON body
+ *  * raw - 1mb limit on raw body
+ *  * raw - 1mb limit on text body
+ * * cors - support for all cors request since this API may be used by outside
+ * * Headers: see code.
+ *
  * @name express
  */
 module.exports = function(app) {

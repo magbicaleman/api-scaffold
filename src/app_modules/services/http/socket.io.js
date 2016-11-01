@@ -1,7 +1,12 @@
 'use strict';
 
 /**
- * TODO: Describe the socket.io module
+ * Socket.io Configuration
+ *  - the API will serve up the socket.io client library /socket-io
+ *  - the websocket transport will be used
+ *  - using red
+ *
+ *
  * @name socket.io
  * @param api
  * @param app

@@ -1,7 +1,9 @@
 'use strict';
 
 /**
- * TODO: Describe the http module
+ * Configures the HTTP handler to include Express and Socket.IO
+ * and links in the API routes.
+ *
  * @name http
  * @param app
  * @returns {{express, server, socketio}}
