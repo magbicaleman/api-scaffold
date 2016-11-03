@@ -18,6 +18,7 @@ const cors = require('cors');
  * * Headers: see code.
  *
  * @name express
+ * @memberOf app.services
  */
 module.exports = function(app) {
   express.use(compress({threshold: 1024}));
@@ -27,10 +28,25 @@ module.exports = function(app) {
   express.use(bodyParser.text({limit: '1mb'}));
   express.use(cors({origin: '*'}));
   express.use((req, res, next) => {
+    //Get user session for each request
     res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
     res.header('Expires', '-1');
     res.header('Pragma', 'no-cache');
     next();
+  });
+  express.use((req, res, next) => {
+    if (req.headers.authorization) {
+      const token = req.headers.authorization.replace('Bearer ', '').replace('bearer ', '');
+      const session = app.shared.session.getUserSession(token);
+      if (session.error) {
+        res.status(401).json(session.error);
+      } else {
+        req.user = session;
+        next();
+      }
+    } else {
+      next();
+    }
   });
   /*
    * load API routes

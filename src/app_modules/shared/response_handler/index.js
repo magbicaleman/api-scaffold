@@ -1,36 +1,33 @@
 'use strict';
 
 /**
- * responseHandler
- * =========
+ * {@link app.shared| Shared Services}
+ *
  * ResponseHandler is a centralized way of responding to all http requests.
  * This will help centralize what error codes are used by default and also
  * handle anything we need to inject when responding
+ *
  * The functions all take 2 parameters:
  * * res - the express response object
  * * payload - what to send back
- *  * responseCode - what HTTP code to send
- *  * data - body to return
  *
- * responseHandler Functions
- * ---------
- *
- * ### responseHandler.success ###
- * success(res, payload) -  will respond with a 200 unless you pass in a
- * payload.responseCode and the body comes from payload.data.
- *
- * ###  responseHandler.error ###
- * error(res, payload) -  will respond with a 500 unless you pass in a
- * payload.error.responseCode or payload.responseCode.
- * Body -  payload.error.message or payload.error.
- *
- * @name responseHandler
- * @memberOf app.services
+ * @module responseHandler
+ * @memberOf app.shared
+ * @see app.shared
  *
  * @param app
  * @returns {{success: success, error: error}}
  */
 module.exports = function(app) {
+  /**
+   * Responds with a 200 unless you pass in a
+   * payload.responseCode and the body comes from payload.data.
+   *
+   * @param res - express response object
+   * @param payload - object
+   *  * responseCode - what HTTP response code you want to return (200 default)
+   *  * data - what will be sent in body
+   */
   function success(res, payload) {
     if (!payload) {
       payload = {};
@@ -41,6 +38,17 @@ module.exports = function(app) {
     logger.silly(JSON.stringify(responseData));
   }
 
+  /**
+   * Responds with a 500 unless you pass in a
+   * payload.error.responseCode or payload.responseCode.
+   *
+   * @param res - express response object
+   * @param payload - object
+   *  * responseCode - what HTTP response code you want to return (500 default)
+   *  * error - what will be sent in body
+   *    * responseCode - if the error dictates the resp code.
+   *    * message - error message
+   */
   function error(res, payload) {
     if (!payload) {
       payload = {};

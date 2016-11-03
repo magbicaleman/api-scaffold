@@ -32,13 +32,13 @@ async function init() {
       new (winston.transports.Console)({level: app.config.log_Level})
     ]
   });
+  // add shared functions to app
+  app.shared = require('./app_modules/shared')(app);
   // open connections to other apps/services
   app.clients = await require('./app_modules/clients')(app);
-  // add shared functions to app
+  // add services to app
   app.services = await require('./app_modules/services')(app);
   // add models to app
-  app.shared = require('./app_modules/shared')(app);
-  // add services to app
   app.models = {
     mongo: require('./app_modules/models/mongoose')
   };

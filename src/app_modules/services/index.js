@@ -7,7 +7,7 @@
  *  For anything related to clients see {@link app.clients}
  *
  * ### Available Services ###
- * * http - node http services
+ * * {@link http} - node http services
  *
  * @memberOf app
  * @namespace app.services

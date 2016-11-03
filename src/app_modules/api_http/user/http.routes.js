@@ -12,8 +12,7 @@ const router = express.Router();
  * @param app
  * @returns {*}
  */
-module.exports = function(req, res, app) {
-  router.post('/', require('./create')(req, res, app));
-  router.get('/:id', require('./login')(req, res, app));
+module.exports = function(app) {
+  router.post('/', require('./create')(app));
   return router;
 };

@@ -11,8 +11,8 @@ const algorithm = 'aes-256-ctr';
  * session Functions
  * ---------
  *
- * ### session.decryptToken ###
- * decryptToken(token)
+ * ### session.getUserSession ###
+ * getUserSession()
  * * parameters:
  *  * token - token to decrypt
  * * response:
@@ -25,100 +25,61 @@ const algorithm = 'aes-256-ctr';
  * @memberOf app.shared
  *
  * @param app
- * @returns {{verify: verify, decryptToken: decryptToken, signToken: signToken, getUserToken: getUserToken, encryptContents: encryptContents, decryptContents: decryptContents}}
+ * @returns {{getUserSession: getUserSession, generateUserToken: generateUserToken}}
  */
 module.exports = function(app) {
-  function decryptToken(token) {
-    return new Promise(function(resolve, reject) {
-      jwt.verify(token, app.config.jwt.secret, function(err, decodedToken) {
-        if (err || !decodedToken) {
-          reject({error: 'invalid-token'});
-        } else {
-          resolve({decodedToken: decryptContents(decodedToken), token: token});
-        }
-      });
-    });
-  }
-
-  function verify(req, res, next) {
-    var authorization = req.headers.authorization || '';
-    var token = authorization.replace('Bearer ', '').replace('bearer ', '');
-    // Add all endpoints that are publicly available here:
-    if (!token) {
-      next();
+  async function getUserSession(token) {
+    const tokenContents = await decryptToken(app, token);
+    const userRecord = await app.models.User.findOne({_id: tokenContents.user_id}, {'status': 0}).lean();
+    if (!userRecord) {
+      return {error: 'invalid-user'};
     } else {
-      req.token = token;
-      try {
-        jwt.verify(token, app.config.jwt.secret, function(err, decodedToken) {
-          if (err || !decodedToken) {
-            return res.status(401).json({
-              error: 'invalid-token'
-            });
-          }
-          req.user_session = decryptContents(decodedToken);
-          //TODO: Check redis instead of querying db each time.
-          app.models.User.findOne({_id: req.user_session.user_id}, {'status': 0})
-            .then(function(user) {
-              if (!user) {
-                return res.status(401).json({
-                  error: 'invalid-user'
-                });
-              }
-              req.user = user;
-              next();
-            })
-            .catch(function(err) {
-              return res.status(401).json({
-                error: 'invalid-user'
-              });
-            });
-        });
-      } catch (error) {
-        logger.error('token error: ' + error);
-      }
+      return userRecord;
     }
   }
 
-  function signToken(tokenObj, tokenOptions) {
-    return jwt.sign({contents: encryptContents(tokenObj)}, app.config.jwt.secret, tokenOptions);
-  }
-
-  function getUserToken(user) {
-    return signToken({
-      email: user.local.email,
-      user_id: user._id,
-      first_name: user.local.firstname,
-      last_name: user.local.lastname
-    }, {
+  function generateUserToken(user) {
+    const contents = {
+      email: user.email,
+      user_id: user._id
+    };
+    const options = {
       algorithm: 'RS256',
       header: {
         'alg': 'HS256',
         'typ': 'JWT'
       }
+    };
+    jwt.sign({contents: encryptTokenContents(contents)}, app.config.jwt.secret, options);
+  }
+
+  function decryptToken(token) {
+    jwt.verify(token, app.config.jwt.secret, function(err, verifiedToken) {
+      if (err || !verifiedToken) {
+        return {error: 'invalid-token'};
+      } else {
+        decryptTokenContents(app, verifiedToken);
+      }
     });
   }
 
-  function encryptContents(contents) {
-    const text = JSON.stringify(contents);
-    const cipher = crypto.createCipher(algorithm, app.config.jwt.content_secret);
-    let crypted = cipher.update(text, 'utf8', 'hex');
-    crypted += cipher.final('hex');
-    return crypted;
-  }
-
-  function decryptContents(text) {
+  function decryptTokenContents(verifiedToken) {
     const decipher = crypto.createDecipher(algorithm, app.config.jwt.content_secret);
-    let dec = decipher.update(text.contents, 'hex', 'utf8');
+    let dec = decipher.update(verifiedToken.contents, 'hex', 'utf8');
     dec += decipher.final('utf8');
     return JSON.parse(dec);
   }
 
+  function encryptTokenContents(contents) {
+    const text = JSON.stringify(contents);
+    const cipher = crypto.createCipher(algorithm, app.config.jwt.content_secret);
+    let encryptedContents = cipher.update(text, 'utf8', 'hex');
+    encryptedContents += cipher.final('hex');
+    return encryptedContents;
+  }
+
   return {
-    verify: verify,
-    decryptToken: decryptToken,
-    signToken: signToken,
-    getUserToken: getUserToken,
-    encryptContents: encryptContents,
-    decryptContents: decryptContents
+    getUserSession: getUserSession,
+    generateUserToken: generateUserToken
   };
 };

@@ -3,6 +3,7 @@
 /**
  * Configures the HTTP handler to include Express and Socket.IO
  * and links in the API routes.
+ * @memberOf app.services
  *
  * @name http
  * @param app

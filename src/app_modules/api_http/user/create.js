@@ -8,7 +8,8 @@
  * @param req
  * @param res
  */
-module.exports = function(req, res, app) {
-  console.log(app);
-  app.services.responseHandler.success(res);
+module.exports = function(app) {
+  return function(req, res) {
+    app.shared.responseHandler.success(res);
+  };
 };

@@ -10,6 +10,7 @@
  * @name socket.io
  * @param api
  * @param app
+ * @memberOf app.services
  */
 module.exports = function(api, app) {
   const socketio = require('socket.io')(api, {
