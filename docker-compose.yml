@@ -1,0 +1,21 @@
+version: '2'
+services:
+  mongo:
+    image: mongo:3.2
+  reddis:
+    image: redis:3.2
+  api:
+    build: .
+    depends_on:
+      - mongo
+      - reddis
+    links:
+      - mongo
+      - reddis
+    ports: 
+      - 8080:9000
+    volumes:
+      - .:/code
+    environment:
+      MONGO_URI: mongodb://mongo:27017
+      REDIS_SOCKETIO_HOST: reddis

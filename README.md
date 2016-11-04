@@ -22,3 +22,14 @@ In order for this application to work it assumes you have
 
 ####Contributing
 Please see the [Project](https://github.com/dvideby0/api-scaffold/projects/2) page for current tasks 
+
+## Docker Support
+Will build the required multi-container application that is needed to run the api.
+
+Make sure you have docker installed:
+- https://www.docker.com/products/docker
+
+Through your terminal run `docker-compose up`, in the root directory.
+
+If you need to make changes start with the `docker-compose.yml`, followed
+by the `Dockerfile`.
